@@ -57,21 +57,21 @@ export type TChatSession = {
 
 export const useChatSession = () => {
 	// getSessions is a function that returns an array of chat sessions
-	const getSessions = async () => {
-		return (await get("sessions")) || [];
+	const getSessions = async (): Promise<TChatSession[]> => {
+		return (await get("chat-sessions")) || [];
 	};
 
 	// setSession is a function that takes a chat session and adds it to the list of chat sessions
 	const setSession = async (chatSession: TChatSession) => {
 		const sessions = await getSessions(); // get the list of chat sessions
-		const newSessions = [chatSession, ...sessions]; // add the new chat session to the list
+		const newSessions = [...sessions, chatSession]; // add the new chat session to the list
 		await set("chat-sessions", newSessions); // set the list of chat sessions
 	};
 
 	// getSessionById is a function that takes an id and returns the chat session with that id
 	const getSessionById = async (id: string) => {
 		const sessions = await getSessions(); // get the list of chat sessions
-		return sessions.find((sessions: TChatSession) => sessions.id === id); // return the chat session with that id
+		return sessions.find((session: TChatSession) => session.id === id); // return the chat session with that id
 	};
 
 	// removeSessionById is a function that takes an id and removes the chat session with that id from the list of chat sessions
